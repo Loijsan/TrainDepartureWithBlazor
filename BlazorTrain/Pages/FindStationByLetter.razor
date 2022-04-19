@@ -2,31 +2,33 @@
 
 @inject TrainStationFinder _stations
 
-<PageTitle>Sök</PageTitle>
+<PageTitle>Sök efter station att åka från</PageTitle>
 
-<h3>Sålla fram stationer</h3>
-
-<div class="search">
-    <input class="searchBox"
-    @bind-value="station"
-    @bind-value:event="oninput"
-    @onkeyup="FindStations"
-    />
-</div>
-
-<h4>Sökresultat</h4>
-
-@if (foundStations is null)
-{
-    <p>Inga resultat...</p>
-}
-else
-{
-    foreach (var found in foundStations)
+<div class="behind">
+    <div class="search">
+        <input type="text"
+        placeholder="Skriv för att söka station"
+        @bind-value="station"
+        @bind-value:event="oninput"
+        @onkeyup="FindStations"
+        />
+    </div>
+    <div class="searchResultLayout">
+    @if (foundStations is null)
     {
-        <p style="font-size:larger; font-weight:bolder;">@found.AdvertisedLocationName</p>
+        <p class="emptySearchResult">Inga resultat...</p>
     }
-}
+    else
+    {
+        // TODO! Begränsa till typ 14 st resultat. 
+        //Den ska inte visa fler resultat än vad det finns plats i alla fall
+        foreach (var found in foundStations)
+        {
+            <p class="searchResult"> @found.AdvertisedLocationName</p>
+        }
+    }
+    </div>
+</div>
 
 @code {
     private List<JsonStationObject.Trainstation> foundStations;
@@ -34,7 +36,7 @@ else
 
     private async void FindStations()
     {
-        if(station != "")
+        if(station.Count() > 0)
         {
             foundStations = await _stations.GetStations(station);
         }   

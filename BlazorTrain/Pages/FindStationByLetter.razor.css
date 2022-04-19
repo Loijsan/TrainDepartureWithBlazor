@@ -1,12 +1,34 @@
 ﻿body {
+    /*background: url('~/wwwroot/Images/landscape.jpg');*/
+}
+.behind {
+    height: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    background: url("./Images/landscape.jpg");
+    background-color: forestgreen;
+    position: absolute;
+    background-size: 100% 100%;
 }
 .search {
-    font: bg-blue-100;
+    height: 40px;
     display: flex;
+    justify-content: center;
 }
 
-.searchBox {
-    border: double;
-    margin-bottom: 10px;
-    
+.emptySearchResult{
+    margin-top: 5px;
+}
+
+.searchResultLayout{
+    color: ghostwhite;
+}
+
+.searchResult{
+    font-size: large;
+    font-weight: bolder;
+    margin-top: 5px;
 }

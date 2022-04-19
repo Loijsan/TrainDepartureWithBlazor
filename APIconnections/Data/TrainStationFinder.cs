@@ -19,6 +19,7 @@ namespace ApiConnections.Data
             // TODO! Lösa så att jag får in config i denna...
 
             var token = "bb89bc88865e4784b501081c6d37b0dc";
+            // TODO! Byta token när jag är klar med denna!
 
             string requestBody = "<REQUEST>" +
                                      $"<LOGIN authenticationkey='{token}'/>" +
