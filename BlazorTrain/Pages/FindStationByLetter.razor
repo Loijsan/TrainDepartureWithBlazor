@@ -1,0 +1,42 @@
+﻿@page "/trainLetter"
+
+@inject TrainStationFinder _stations
+
+<PageTitle>Sök</PageTitle>
+
+<h3>Sålla fram stationer</h3>
+
+<div class="search">
+    <input class="searchBox"
+    @bind-value="station"
+    @bind-value:event="oninput"
+    @onkeyup="FindStations"
+    />
+</div>
+
+<h4>Sökresultat</h4>
+
+@if (foundStations is null)
+{
+    <p>Inga resultat...</p>
+}
+else
+{
+    foreach (var found in foundStations)
+    {
+        <p style="font-size:larger; font-weight:bolder;">@found.AdvertisedLocationName</p>
+    }
+}
+
+@code {
+    private List<JsonStationObject.Trainstation> foundStations;
+    private string station = "";
+
+    private async void FindStations()
+    {
+        if(station != "")
+        {
+            foundStations = await _stations.GetStations(station);
+        }   
+    }
+}

@@ -1,0 +1,12 @@
+﻿body {
+}
+.search {
+    font: bg-blue-100;
+    display: flex;
+}
+
+.searchBox {
+    border: double;
+    margin-bottom: 10px;
+    
+}
