@@ -6,28 +6,23 @@ using System.Threading.Tasks;
 
 namespace ApiConnections.Models
 {
-    public class JsonStationObject
+    public class JsonStationNameModel
     {
-        public class StationRootobject
+        public class NameRootobject
         {
             public RESPONSE RESPONSE { get; set; }
         }
-
         public class RESPONSE
         {
             public RESULT[] RESULT { get; set; }
         }
-
         public class RESULT
         {
-            public Trainstation[] TrainStation { get; set; }
+            public TrainstationName[] TrainStation { get; set; }
         }
-
-        public class Trainstation
+        public class TrainstationName
         {
             public string AdvertisedLocationName { get; set; }
-            public string AdvertisedShortLocationName { get; set; }
-            public string LocationSignature { get; set; }
         }
     }
 }

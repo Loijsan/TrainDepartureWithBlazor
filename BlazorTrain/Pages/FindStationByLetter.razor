@@ -1,6 +1,6 @@
 ﻿@page "/trainLetter"
 
-@inject TrainStationFinder _stations
+@inject ApiConnection _stations
 
 <PageTitle>Sök efter station att åka från</PageTitle>
 
@@ -38,7 +38,7 @@
     {
         if(station.Count() > 0)
         {
-            foundStations = await _stations.GetStations(station);
+            foundStations = await _stations.GetStationsAsync(station);
         }   
     }
 }

@@ -1,6 +1,6 @@
 ﻿@page "/trainWord"
 
-@inject TrainStationFinder _stations
+@inject ApiConnection _stations
 
 <h3>Sök station efter sökord</h3>
 
@@ -30,7 +30,7 @@ else
     {
         if(station != "")
         {
-            foundStations = await _stations.GetStations(station);
+            foundStations = await _stations.GetStationsAsync(station);
         }   
     }
 }
