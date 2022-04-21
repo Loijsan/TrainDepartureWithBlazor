@@ -9,7 +9,7 @@
     align-items: center;
     justify-content: space-evenly;
     background: url("./Images/landscape.jpg");
-    background-color: forestgreen;
+    background-color: darkslategray;
     position: absolute;
     background-size: 100% 100%;
 }
@@ -25,10 +25,14 @@
 
 .searchResultLayout{
     color: ghostwhite;
+    display: flex;
+    flex-direction: column;
 }
 
 .searchResult{
     font-size: large;
     font-weight: bolder;
     margin-top: 5px;
+    color: white;
+    text-decoration: none;
 }

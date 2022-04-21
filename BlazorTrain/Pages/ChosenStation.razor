@@ -1,0 +1,24 @@
+﻿@page "/ChosenStation/{LocationSignature}"
+@inject ApiConnection _apiCall
+
+<PageTitle>Avgångar från @Station.AdvertisedLocationName</PageTitle>
+
+<h3>@Station.AdvertisedLocationName</h3>
+
+@code {
+    [Parameter]
+    public string LocationSignature { get; set; }
+    private JsonStationNameModel.TrainstationName Station;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        GetCurrentStation();
+    }
+
+    public async void GetCurrentStation()
+    {
+        Station = await _apiCall.GetStationNameAsync(LocationSignature);
+    }
+
+}

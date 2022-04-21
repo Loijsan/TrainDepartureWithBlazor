@@ -1,8 +1,8 @@
 ﻿@page "/trainLetter"
 
-@inject ApiConnection _stations
+@inject ApiConnection _apiCall
 
-<PageTitle>Sök efter station att åka från</PageTitle>
+<PageTitle>Sök efter en station att åka från</PageTitle>
 
 <div class="behind">
     <div class="search">
@@ -20,11 +20,10 @@
     }
     else
     {
-        // TODO! Begränsa till typ 14 st resultat. 
-        //Den ska inte visa fler resultat än vad det finns plats i alla fall
+        // Ansvers limited to 10 in the API call in ApiConnection
         foreach (var found in foundStations)
         {
-            <p class="searchResult"> @found.AdvertisedLocationName</p>
+            <a class="searchResult" href="/ChosenStation/@found.LocationSignature">@found.AdvertisedLocationName</a>
         }
     }
     </div>
@@ -38,7 +37,7 @@
     {
         if(station.Count() > 0)
         {
-            foundStations = await _stations.GetStationsAsync(station);
+            foundStations = await _apiCall.GetStationsAsync(station);
         }   
     }
 }

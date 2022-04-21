@@ -12,12 +12,6 @@ using static ApiConnections.Models.JsonStationObject;
 Console.WriteLine("Hello there, please enter the name of the station you wish to travel form: ");
 string station = Console.ReadLine();
 
-//TrainDepartures trainDepatures = new();
-//List<string> stationList = await trainDepatures.FindStationsAsync(station);
-
-//TrainDepartureHttp http = new();
-//List<string> stationList = await http.CallTransportApiAsync(station);
-
 ApiConnection departures = new();
 List<Trainstation> stationList = await departures.GetStationsAsync(station);
 
@@ -39,6 +33,5 @@ foreach (var destination in departureList)
     }
 }
 
-//ExampleCode.PresentInfo(); // Denna är exempelkoden från Trafikverket
 Console.WriteLine("Press the any key to continue");
 Console.ReadKey();
