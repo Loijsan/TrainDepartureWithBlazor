@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using ApiConnections.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Net;
 using static ApiConnections.Models.DepartureModel;
@@ -37,7 +38,7 @@ namespace ApiConnections.Data
             }
             return null;
         }
-        public async Task<List<Trainannouncement>> GetDeparturesAsync(string locationSignature)
+        public async Task<List<TrainDepartureModel>> GetDeparturesAsync(string locationSignature)
         {
             // TODO! - Hade hellre begränsat den i tid än i antal...
             string requestBody = "<REQUEST>" +
@@ -69,13 +70,32 @@ namespace ApiConnections.Data
                               "</QUERY>" +
                         "</REQUEST>";
 
-            // Jag vill att den först frågar ApiPostCaller
+            // This request is sent to the API
             var result = await ApiPostCaller(requestBody);
 
             if (result is not null)
             {
+                // The response, if not null, is sent to the JsonExtractor
                 List<Trainannouncement> departureList = JsonDepartureExtractor(result);
-                return departureList;
+                List<TrainDepartureModel> trainDepartureList = new();
+
+                // The call to get the destination names is made here.
+                foreach (var departure in departureList)
+                {
+                    if (departure.ToLocation[0] is not null)
+                    {
+                        var place = departure.ToLocation[0];
+                        var stationName = await GetStationNameAsync(place.LocationName);
+
+                        TrainDepartureModel trainDeparture = new()
+                        {
+                            Announcements = departure,
+                            LocationFullName = stationName.AdvertisedLocationName.ToString()
+                        };
+                        trainDepartureList.Add(trainDeparture);
+                    }
+                }
+                return trainDepartureList;
             }
             return null;
         }

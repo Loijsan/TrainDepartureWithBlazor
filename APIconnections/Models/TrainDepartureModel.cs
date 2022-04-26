@@ -7,9 +7,9 @@ using static ApiConnections.Models.DepartureModel;
 
 namespace ApiConnections.Models
 {
-    public class TrainDepartures
+    public class TrainDepartureModel
     {
         public Trainannouncement Announcements { get; set; }
-        public string LocationName { get; set; }
+        public string LocationFullName { get; set; }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using ApiConnections.Data;
-using static ApiConnections.Models.DepartureModel;
-using static ApiConnections.Models.JsonDepartureModel;
 using static ApiConnections.Models.JsonStationObject;
 using static ApiConnections.Models.StationMessages;
 
@@ -18,7 +16,7 @@ foreach (var stop in stationList)
 // Get the locationName from the user
 Console.WriteLine("To find the departures, please enter the short name for the station: ");
 string shortName = Console.ReadLine();
-List<Trainannouncement> departureList = await departures.GetDeparturesAsync(shortName);
+var departureList = await departures.GetDeparturesAsync(shortName);
 List<Trainmessage> messages = await departures.GetStationMessagesAsync(shortName);
 // List the messages for the chosen station
 if (messages is not null)
@@ -31,11 +29,10 @@ if (messages is not null)
 // List the departures from the chosen station
 foreach (var destination in departureList)
 {
-    if (destination.ToLocation is not null)
+    if (destination.LocationFullName is not null)
     {
-        var place = destination.ToLocation[0];
-        var placename = await departures.GetStationNameAsync(place.LocationName.ToString());
-        Console.WriteLine($"Train to {placename.AdvertisedLocationName} leaves at {destination.AdvertisedTimeAtLocation} or {destination.EstimatedTimeAtLocation} from track {destination.TrackAtLocation}. Departure cancelled? {destination.Canceled.Value} and deviation? {destination.Deviation}");
+        //var placename = await departures.GetStationNameAsync(place.LocationName.ToString());
+        Console.WriteLine($"Train to {destination.LocationFullName} leaves at {destination.Announcements.AdvertisedTimeAtLocation} or {destination.Announcements.EstimatedTimeAtLocation} from track {destination.Announcements.TrackAtLocation}. Departure cancelled? {destination.Announcements.Canceled.Value} and deviation? {destination.Announcements.Deviation}");
     }
 }
 
