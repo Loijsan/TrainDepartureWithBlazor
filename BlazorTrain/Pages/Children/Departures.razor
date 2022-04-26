@@ -1,0 +1,73 @@
+﻿@inject ApiConnection _apiCall
+
+@if (departures is not null)
+{
+   <br/>
+   <table  class="table">
+       <thead>
+           <tr>
+               <th scope="col">Avgångstid</th>
+               <th scope="col">Mot</th>
+               <th scope="col">Från spår</th>
+               <th scope="col">Tågnummer</th>
+               <th scope="col">Info om resan</th>
+           </tr>
+       </thead>
+       @foreach (var departure in departures)
+       {
+        <tbody>
+        <tr>
+            @if (departure.Canceled != true)
+            {
+                @if (departure.EstimatedTimeAtLocation is null)
+                {
+                            var departureTime = @departure.AdvertisedTimeAtLocation.Value;
+                            <th scope="row">@departureTime.ToShortTimeString()</th>
+                }
+                else
+                {
+                    var estimatedTime = @departure.EstimatedTimeAtLocation.Value;
+                    <th scope="row" style="background-color:blue;">@estimatedTime.ToShortTimeString()</th>
+                }
+                @if (departure.ToLocation[0] is not null)
+                {
+                    var place = departure.ToLocation[0];
+                    GetDestination(place.LocationName.ToString());
+                    <th scope="row">@destination.AdvertisedLocationName</th>
+                }  
+                <th scope="row">@departure.TrackAtLocation</th>
+                <th scope="row">@departure.AdvertisedTrainIdent</th>
+                @if (@departure.Deviation is not null)
+                {
+                @foreach (var deviation in @departure.Deviation)
+                {
+                    <th scope="row">@deviation</th>
+                }
+            }
+        }          
+            </tr>
+        </tbody>
+       }
+   </table>
+}
+
+@code {
+    [Parameter]
+    public string LocationSignature { get; set; }
+    public List<DepartureModel.Trainannouncement> departures;
+    private JsonStationNameModel.TrainstationName destination;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        GetDepartures();
+    }
+    private async void GetDepartures()
+    {
+        departures = await _apiCall.GetDeparturesAsync(LocationSignature);
+    }
+    private async void GetDestination(string place)
+    {
+        destination = await _apiCall.GetStationNameAsync(place);
+    }
+}

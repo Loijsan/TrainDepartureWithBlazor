@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTrain", "BlazorTrain\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiConnections", "APIconnections\ApiConnections.csproj", "{B70717BD-64DF-45D1-A0BE-D43C23B02DC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLogicApp", "TestLogicApp\TestLogicApp.csproj", "{FA4D6ECC-68D4-4C9A-89F6-5C6440651AB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestLogicApp", "TestLogicApp\TestLogicApp.csproj", "{FA4D6ECC-68D4-4C9A-89F6-5C6440651AB9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B70717BD-64DF-45D1-A0BE-D43C23B02DC4} = {B70717BD-64DF-45D1-A0BE-D43C23B02DC4}
 	EndProjectSection

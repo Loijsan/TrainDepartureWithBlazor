@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ApiConnections.Models
 {
+    // TODO! Ta bort?
     public class JsonDepartureModel
     {
         public class DepartureRootobject
@@ -18,9 +19,9 @@ namespace ApiConnections.Models
         }
         public class RESULT
         {
-            public Trainannouncement[] TrainAnnouncement { get; set; }
+            public JsonTrainannouncement[] TrainAnnouncement { get; set; }
         }
-        public class Trainannouncement
+        public class JsonTrainannouncement
         {
             public DateTime AdvertisedTimeAtLocation { get; set; }
             public string AdvertisedTrainIdent { get; set; }

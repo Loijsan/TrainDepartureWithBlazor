@@ -1,0 +1,57 @@
+﻿@*@page "/stationInfo/{LocationSignature}"*@
+@inject ApiConnection _apiCall
+
+@if (display)
+{
+    <br/>
+    <button type="button" class="btn-close" aria-label="Close"@onclick="HideChild"></button>
+<br/>
+    <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Anledning</th>
+            <th scope="col">Stardatum</th>
+            <th scope="col">Senast uppdaterat</th>
+            <th scope="col">Vad händer?</th>
+        </tr>
+    </thead>
+    @foreach (var infoRow in InfoList)
+    {
+        <tbody>
+            <tr>
+                <th scope="row">@infoRow.ReasonCodeText</th>
+                <th scope="row">@infoRow.StartDateTime</th>
+                <th scope="row">@infoRow.LastUpdateDateTime</th>
+                <th scope="row">@infoRow.ExternalDescription</th>
+            </tr>
+        </tbody>
+    }
+</table>
+}
+@code {
+    [Parameter]
+    public string LocationSignature { get; set; }
+    private List<StationMessages.Trainmessage> InfoList;
+    public bool display = false;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        GetStationInfo();
+    }
+    public void ShowChild()
+    {
+        display = true;
+        StateHasChanged();
+    }
+    public void HideChild()
+    {
+        display = false;
+        StateHasChanged();
+    }
+    public async void GetStationInfo()
+    {
+        InfoList = await _apiCall.GetStationMessagesAsync(LocationSignature);
+    }
+    // TODO! Behöver fortfarande stylas JÄRNET! Är inte helt nöjd...
+}

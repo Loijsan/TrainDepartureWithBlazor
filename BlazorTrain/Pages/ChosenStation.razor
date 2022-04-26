@@ -5,20 +5,40 @@
 
 <h3>@Station.AdvertisedLocationName</h3>
 
+@*Lägg till vad som ska hända när man klickar!
+Lägga till: If det finns info: visa knappen*@
+@if (InfoList.Count() > 0)
+{
+    <div class="d-grid gap-2 col-6 mx-auto-flex justify-content-md-start">
+        <button type="button" class="btn btn-outline-info" @onclick="(() => {
+            StationInfo.ShowChild();
+            })">Visa information för stationen</button>
+    </div>
+    <InfoAboutStation LocationSignature="@LocationSignature" @ref="StationInfo"></InfoAboutStation>
+}
+<Departures LocationSignature="@LocationSignature"></Departures>
+
 @code {
     [Parameter]
     public string LocationSignature { get; set; }
+    private InfoAboutStation StationInfo;
     private JsonStationNameModel.TrainstationName Station;
+    private List<StationMessages.Trainmessage> InfoList;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         GetCurrentStation();
+        GetStationInfo();
+        // Vilka avgångar går härifrån
+        // Hur ska denna infon presenteras?
     }
-
     public async void GetCurrentStation()
     {
         Station = await _apiCall.GetStationNameAsync(LocationSignature);
     }
-
+    public async void GetStationInfo()
+    {
+        InfoList = await _apiCall.GetStationMessagesAsync(LocationSignature);
+    }
 }

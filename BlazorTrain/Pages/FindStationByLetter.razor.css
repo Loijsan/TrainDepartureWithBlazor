@@ -1,38 +1,79 @@
 ﻿body {
-    /*background: url('~/wwwroot/Images/landscape.jpg');*/
+
 }
 .behind {
     height: 800px;
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
     background: url("./Images/landscape.jpg");
     background-color: darkslategray;
-    position: absolute;
+    position: relative;
+    left: 0;
     background-size: 100% 100%;
 }
-.search {
-    height: 40px;
+    .behind > .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        background-color: lightgrey;
+        opacity: 0.3;
+    }
+.placement {
+    /*background-color: aqua;*/
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
     display: flex;
+    flex-direction: row;
+}
+.placement_left {
+    /*background-color: red;*/
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+.placement_right {
+    /*background-color: yellow;*/
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: center;
     justify-content: center;
 }
+.searchBox {
+    vertical-align: top;
+    /*background-color:purple;*/
+    height: 60px;
+    z-index: 2;
+}
 
-.emptySearchResult{
+.emptySearchResult {
+    /*background-color:dimgrey;*/
+    display: block;
     margin-top: 5px;
 }
 
-.searchResultLayout{
-    color: ghostwhite;
+.searchResultLayout {
+    /*background-color:green;*/
+    display: block;
+    color: white;
     display: flex;
     flex-direction: column;
 }
 
-.searchResult{
-    font-size: large;
+.searchResult {
+    font-size: x-large;
     font-weight: bolder;
     margin-top: 5px;
     color: white;
     text-decoration: none;
+    z-index: 2;
 }

@@ -5,27 +5,35 @@
 <PageTitle>Sök efter en station att åka från</PageTitle>
 
 <div class="behind">
-    <div class="search">
-        <input type="text"
-        placeholder="Skriv för att söka station"
-        @bind-value="station"
-        @bind-value:event="oninput"
-        @onkeyup="FindStations"
-        />
+    <div class="overlay">
     </div>
-    <div class="searchResultLayout">
-    @if (foundStations is null)
-    {
-        <p class="emptySearchResult">Inga resultat...</p>
-    }
-    else
-    {
-        // Ansvers limited to 10 in the API call in ApiConnection
-        foreach (var found in foundStations)
-        {
-            <a class="searchResult" href="/ChosenStation/@found.LocationSignature">@found.AdvertisedLocationName</a>
-        }
-    }
+    <div class="placement">
+        <div class="placement_left">
+            <div class="searchBox">
+                <input type="text"
+                placeholder="Skriv för att söka station"
+                @bind-value="station"
+                @bind-value:event="oninput"
+                @onkeyup="FindStationsAsync"
+                />
+            </div>
+        </div>
+        <div class="placement_right">
+            <div class="searchResultLayout">
+            @if (foundStations is null)
+            {
+                <p class="emptySearchResult">Inga träffar...</p>
+            }
+            else
+            {
+                // Ansvers limited to 10 in the API call in ApiConnection
+                foreach (var found in foundStations)
+                {
+                    <a class="searchResult" href="/ChosenStation/@found.LocationSignature">@found.AdvertisedLocationName</a>
+                }
+            }
+            </div>
+        </div>
     </div>
 </div>
 
@@ -33,7 +41,7 @@
     private List<JsonStationObject.Trainstation> foundStations;
     private string station = "";
 
-    private async void FindStations()
+    private async void FindStationsAsync()
     {
         if(station.Count() > 0)
         {
