@@ -15,40 +15,20 @@
        </thead>
        @foreach (var departure in departures)
        {
-        <tbody>
-        <tr>
-            @if (departure.Announcements.Canceled != true)
+           @if (departure.Announcements.AdvertisedTimeAtLocation < DateTime.Now)
+           {
+               <DepartureTableRows Departure="departure"></DepartureTableRows>
+           }
+           @if (departure.Announcements.Canceled != true)
             {
-                @if (departure.Announcements.EstimatedTimeAtLocation is null)
-                {
-                            var departureTime = @departure.Announcements.AdvertisedTimeAtLocation.Value;
-                            <th scope="row">@departureTime.ToShortTimeString()</th>
-                }
-                else
-                {
-                    var estimatedTime = @departure.Announcements.EstimatedTimeAtLocation.Value;
-                    <th scope="row" style="background-color:blue;">@estimatedTime.ToShortTimeString()</th>
-                }
-
-                @if (departure.LocationFullName != "")
-                {
-                    <th scope="row">@departure.LocationFullName</th>
-                }  
-                <th scope="row">@departure.Announcements.TrackAtLocation</th>
-                <th scope="row">@departure.Announcements.AdvertisedTrainIdent</th>
-
-                @if (@departure.Announcements.Deviation is not null)
-                {
-                @foreach (var deviation in @departure.Announcements.Deviation)
-                {
-                    <th scope="row">@deviation</th>
-                }
+                <DepartureTableRows Departure="departure" ></DepartureTableRows>
             }
-        }          
-            </tr>
-        </tbody>
-       }
-   </table>
+            @if (departure.Announcements.Canceled == true)
+            {
+                    <DepartureTableRows Departure="departure" @*class="text-decoration-line-through"*@></DepartureTableRows>
+            }
+        }
+    </table>
 }
 
 @code {

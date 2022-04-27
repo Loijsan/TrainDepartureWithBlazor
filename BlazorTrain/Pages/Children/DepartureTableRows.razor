@@ -1,7 +1,36 @@
 ﻿@inject ApiConnection _apiCall
 
+ <tbody>
+        <tr>
+            @if (Departure.Announcements.EstimatedTimeAtLocation is null)
+            {
+                var departureTime = Departure.Announcements.AdvertisedTimeAtLocation.Value;
+                <th scope="row">@departureTime.ToShortTimeString()</th>
+            }
+            else
+            {
+                var estimatedTime = Departure.Announcements.EstimatedTimeAtLocation.Value;
+                <th scope="row" style="background-color:cornflowerblue;">@estimatedTime.ToShortTimeString()</th>
+            }
 
+            @if (Departure.LocationFullName != "")
+            {
+                <th scope="row">@Departure.LocationFullName</th>
+            }  
+            <th scope="row">@Departure.Announcements.TrackAtLocation</th>
+            <th scope="row">@Departure.Announcements.AdvertisedTrainIdent</th>
+
+            @if (Departure.Announcements.Deviation is not null)
+            {
+                @foreach (var deviation in Departure.Announcements.Deviation)
+                {
+                    <th scope="row">@deviation</th>
+                }
+            }
+    </tr>
+</tbody>
 
 @code {
-
+    [Parameter]
+    public TrainDepartureModel Departure { get; set; }
 }

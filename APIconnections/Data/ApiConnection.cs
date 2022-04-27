@@ -50,7 +50,7 @@ namespace ApiConnections.Data
                                     $"<EQ name='LocationSignature' value='{locationSignature}' />" +
                                     "<OR>" +
                                           "<AND>" +
-                                                "<GT name='AdvertisedTimeAtLocation' value='$dateadd(-00:05:00)' />" +
+                                                "<GT name='AdvertisedTimeAtLocation' value='$dateadd(-00:30:00)' />" +
                                                 "<LT name='AdvertisedTimeAtLocation' value='$dateadd(2:00:00)' />" +
                                           "</AND>" +
                                           "<AND>" +
@@ -82,7 +82,7 @@ namespace ApiConnections.Data
                 // The call to get the destination names is made here.
                 foreach (var departure in departureList)
                 {
-                    if (departure.ToLocation[0] is not null)
+                    if (departure.ToLocation is not null)
                     {
                         var place = departure.ToLocation[0];
                         var stationName = await GetStationNameAsync(place.LocationName);
