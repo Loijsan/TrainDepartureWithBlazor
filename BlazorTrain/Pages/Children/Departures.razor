@@ -10,22 +10,35 @@
                <th scope="col">Mot</th>
                <th scope="col">Från spår</th>
                <th scope="col">Tågnummer</th>
+               <th scope="col">Något</th>
                <th scope="col">Info om resan</th>
            </tr>
        </thead>
        @foreach (var departure in departures)
        {
-           @if (departure.Announcements.AdvertisedTimeAtLocation < DateTime.Now)
+           @if (departure.Announcements.AdvertisedTimeAtLocation <= DateTime.Now && departure.Announcements.Canceled != true)
            {
-               <DepartureTableRows Departure="departure"></DepartureTableRows>
+               <tbody>
+                    <tr style="color: gray;">
+                        <DepartureTableRows Departure="departure"></DepartureTableRows>
+                    </tr>
+                </tbody>
            }
-           @if (departure.Announcements.Canceled != true)
+           @if (departure.Announcements.AdvertisedTimeAtLocation >= DateTime.Now && departure.Announcements.Canceled != true)
             {
-                <DepartureTableRows Departure="departure" ></DepartureTableRows>
+                <tbody>
+                    <tr>
+                        <DepartureTableRows Departure="departure" ></DepartureTableRows>
+                    </tr>
+                </tbody>
             }
-            @if (departure.Announcements.Canceled == true)
+            @if (departure.Announcements.AdvertisedTimeAtLocation >= DateTime.Now && departure.Announcements.Canceled == true)
             {
-                    <DepartureTableRows Departure="departure" @*class="text-decoration-line-through"*@></DepartureTableRows>
+                <tbody>
+                    <tr class="text-decoration-line-through">
+                        <DepartureTableRows Departure="departure" ></DepartureTableRows>
+                    </tr>
+                </tbody>
             }
         }
     </table>

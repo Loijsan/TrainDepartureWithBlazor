@@ -11,5 +11,6 @@ namespace ApiConnections.Models
     {
         public Trainannouncement Announcements { get; set; }
         public string LocationFullName { get; set; }
+        public string ProductInformation { get; set; }
     }
 }

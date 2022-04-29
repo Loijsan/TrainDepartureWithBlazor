@@ -6,6 +6,7 @@ using static ApiConnections.Models.DepartureModel;
 using static ApiConnections.Models.JsonDepartureModel;
 using static ApiConnections.Models.JsonStationNameModel;
 using static ApiConnections.Models.JsonStationObject;
+using static ApiConnections.Models.JsonTrainInfoModel;
 using static ApiConnections.Models.StationMessages;
 
 namespace ApiConnections.Data
@@ -86,11 +87,13 @@ namespace ApiConnections.Data
                     {
                         var place = departure.ToLocation[0];
                         var stationName = await GetStationNameAsync(place.LocationName);
+                        var info = await GetTrainInfoAsync(departure.AdvertisedTrainIdent);
 
                         TrainDepartureModel trainDeparture = new()
                         {
                             Announcements = departure,
-                            LocationFullName = stationName.AdvertisedLocationName.ToString()
+                            LocationFullName = stationName.AdvertisedLocationName.ToString(),
+                            ProductInformation = info
                         };
                         trainDepartureList.Add(trainDeparture);
                     }
@@ -117,10 +120,8 @@ namespace ApiConnections.Data
             if (result is not null)
             {
                 TrainstationName stationName = JsonNameExtractor(result);
-                //var stationName = JsonConvert.DeserializeObject<NameRootobject>(result);
                 return stationName;
             }
-            //Console.WriteLine("No name found");
             return null;
         }
         public async Task<List<Trainmessage>> GetStationMessagesAsync(string locationSignature)
@@ -147,7 +148,33 @@ namespace ApiConnections.Data
             }
             return null;
         }
+        public async Task<string> GetTrainInfoAsync(string trainNumber)
+        {
+            string requestBody = "<REQUEST>" +
+                                     $"<LOGIN authenticationkey='{Token}'/>" +
+                                     "<QUERY objecttype='TrainAnnouncement' schemaversion='1.3'>" +
+                                         "<FILTER>" +
+                                             $"<EQ name='AdvertisedTrainIdent' value='{trainNumber}' />" +
+                                         "</FILTER>" +
+                                         "<INCLUDE>InformationOwner</INCLUDE >" +
+                                         "<INCLUDE>ProductInformation</INCLUDE>" +
+                                     "</QUERY>" +
+                                  "</REQUEST>";
 
+            var result = await ApiPostCaller(requestBody);
+
+            if (result is not null)
+            {
+                var resultList = JsonTrainInfoExtractor(result);
+
+                if (resultList is not null)
+                {
+                    var info = resultList.ProductInformation[0];
+                    return info;
+                }
+            }
+            return null;
+        }
         public async Task<string> ApiPostCaller(string requestBody)
         {
             StringContent stringContent = new(requestBody);
@@ -232,6 +259,15 @@ namespace ApiConnections.Data
                 }
             }
             return messages;
+        }
+        private InfoTrainannouncement JsonTrainInfoExtractor(string result)
+        {
+            var jsonName = JsonConvert.DeserializeObject<InfoRootobject>(result);
+            var jsonResult = jsonName.RESPONSE.RESULT;
+            var informationResult = jsonResult[0];
+            var information = informationResult.TrainAnnouncement[0];
+
+            return information;
         }
     }
 }
