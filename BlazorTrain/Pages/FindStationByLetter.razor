@@ -36,16 +36,17 @@
         </div>
     </div>
 </div>
-
 @code {
-    private List<JsonStationObject.Trainstation> foundStations;
-    private string station = "";
+    public List<JsonStationObject.Trainstation> foundStations;
+    public string station = "";
 
-    private async void FindStationsAsync()
+    public async void FindStationsAsync()
     {
-        if(station.Count() > 0)
+        if (station.Count() > 0)
         {
             foundStations = await _apiCall.GetStationsAsync(station);
-        }   
-    }
+        }
+        }
 }
+
+

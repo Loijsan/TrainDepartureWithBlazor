@@ -1,9 +1,7 @@
 ﻿using ApiConnections.Models;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System.Net;
 using static ApiConnections.Models.DepartureModel;
-using static ApiConnections.Models.JsonDepartureModel;
 using static ApiConnections.Models.JsonStationNameModel;
 using static ApiConnections.Models.JsonStationObject;
 using static ApiConnections.Models.JsonTrainInfoModel;
@@ -13,12 +11,17 @@ namespace ApiConnections.Data
 {
     public class ApiConnection
     {
-        private string Token = "bb89bc88865e4784b501081c6d37b0dc";
+        private readonly string _token;
 
+        public ApiConnection(IConfiguration configuration)
+        {
+            // Yay for them internets!
+            _token = configuration.GetSection("TrainToken").Value;
+        }
         public async Task<List<Trainstation>> GetStationsAsync(string stationName)
         {
             string requestBody = "<REQUEST>" +
-                                     $"<LOGIN authenticationkey='{Token}'/>" +
+                                     $"<LOGIN authenticationkey='{_token}'/>" +
                                      "<QUERY objecttype='TrainStation' schemaversion='1' limit='10'>" +
                                          "<FILTER>" +
                                              $"<LIKE name='AdvertisedLocationName' value= '{stationName}' />" +
@@ -43,7 +46,7 @@ namespace ApiConnections.Data
         {
             // TODO! - Hade hellre begränsat den i tid än i antal...
             string requestBody = "<REQUEST>" +
-                                     $"<LOGIN authenticationkey='{Token}' />" +
+                                     $"<LOGIN authenticationkey='{_token}' />" +
                                     "<QUERY objecttype='TrainAnnouncement' schemaversion='1.3' orderby='AdvertisedTimeAtLocation'>" +
                                     "<FILTER>" +
                                     "<AND>" +
@@ -105,7 +108,7 @@ namespace ApiConnections.Data
         public async Task<TrainstationName> GetStationNameAsync(string locationSignature)
         {
             string requestBody = "<REQUEST>" +
-                                     $"<LOGIN authenticationkey='{Token}'/>" +
+                                     $"<LOGIN authenticationkey='{_token}'/>" +
                                      "<QUERY objecttype='TrainStation' schemaversion='1'>" +
                                          "<FILTER>" +
                                              $"<EQ name='LocationSignature' value= '{locationSignature}' />" +
@@ -127,7 +130,7 @@ namespace ApiConnections.Data
         public async Task<List<Trainmessage>> GetStationMessagesAsync(string locationSignature)
         {
             string requestBody = "<REQUEST>" +
-                                     $"<LOGIN authenticationkey='{Token}'/>" +
+                                     $"<LOGIN authenticationkey='{_token}'/>" +
                                      "<QUERY objecttype='TrainMessage' schemaversion='1.3'>" +
                                          "<FILTER>" +
                                              $"<EQ name='AffectedLocation' value= '{locationSignature}' />" +
@@ -151,7 +154,7 @@ namespace ApiConnections.Data
         public async Task<string> GetTrainInfoAsync(string trainNumber)
         {
             string requestBody = "<REQUEST>" +
-                                     $"<LOGIN authenticationkey='{Token}'/>" +
+                                     $"<LOGIN authenticationkey='{_token}'/>" +
                                      "<QUERY objecttype='TrainAnnouncement' schemaversion='1.3'>" +
                                          "<FILTER>" +
                                              $"<EQ name='AdvertisedTrainIdent' value='{trainNumber}' />" +
@@ -167,6 +170,7 @@ namespace ApiConnections.Data
             {
                 var resultList = JsonTrainInfoExtractor(result);
 
+                // Här ligger felet, men det får jag kolla upp på min fritid!
                 if (resultList is not null)
                 {
                     var info = resultList.ProductInformation[0];
@@ -210,10 +214,8 @@ namespace ApiConnections.Data
             // Detta är inte en klockren lösning!
             foreach (var stations in stationsList)
             {
-                //Console.WriteLine("Stations that match your searchcriteria: ");
                 foreach (var station in stations.TrainStation)
                 {
-                    //Console.WriteLine(station.AdvertisedLocationName);
                     trainStationList.Add(station);
                 }
             }
@@ -224,7 +226,6 @@ namespace ApiConnections.Data
             var jsonDeparture = JsonConvert.DeserializeObject<Rootobject>(result);
             var departureList = jsonDeparture.RESPONSE.RESULT;
             List<Trainannouncement> departureTrainList = new();
-            //List<Trainannouncement> departureTrainList = departureList.Where();
 
             foreach (var departures in departureList)
             {
