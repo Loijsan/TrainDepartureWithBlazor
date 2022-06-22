@@ -54,8 +54,8 @@ namespace ApiConnections.Data
                                     $"<EQ name='LocationSignature' value='{locationSignature}' />" +
                                     "<OR>" +
                                           "<AND>" +
-                                                "<GT name='AdvertisedTimeAtLocation' value='$dateadd(-00:30:00)' />" +
-                                                "<LT name='AdvertisedTimeAtLocation' value='$dateadd(2:00:00)' />" +
+                                                "<GT name='AdvertisedTimeAtLocation' value='$dateadd(-00:10:00)' />" +
+                                                "<LT name='AdvertisedTimeAtLocation' value='$dateadd(1:00:00)' />" +
                                           "</AND>" +
                                           "<AND>" +
                                                 "<LT name='AdvertisedTimeAtLocation' value='$dateadd(00:30:00)' />" +
