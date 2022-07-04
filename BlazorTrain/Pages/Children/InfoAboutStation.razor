@@ -20,8 +20,8 @@
         <tbody>
             <tr>
                 <th scope="row">@infoRow.ReasonCodeText</th>
-                <th scope="row">@infoRow.StartDateTime</th>
-                <th scope="row">@infoRow.LastUpdateDateTime</th>
+                <th scope="row">@infoRow.StartDateTime.ToString(culture)</th>
+                <th scope="row">@infoRow.LastUpdateDateTime.ToString(culture)</th>
                 <th scope="row">@infoRow.ExternalDescription</th>
             </tr>
         </tbody>
@@ -33,6 +33,7 @@
     public string LocationSignature { get; set; }
     private List<StationMessages.Trainmessage> InfoList;
     public bool display = false;
+    private CultureInfo culture = new("sv-SE", false);
 
     protected override void OnInitialized()
     {

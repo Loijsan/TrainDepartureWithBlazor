@@ -1,6 +1,7 @@
 ﻿using ApiConnections.Models;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System.Globalization;
 using static ApiConnections.Models.DepartureModel;
 using static ApiConnections.Models.JsonStationNameModel;
 using static ApiConnections.Models.JsonStationObject;
@@ -55,7 +56,7 @@ namespace ApiConnections.Data
                                     "<OR>" +
                                           "<AND>" +
                                                 "<GT name='AdvertisedTimeAtLocation' value='$dateadd(-00:10:00)' />" +
-                                                "<LT name='AdvertisedTimeAtLocation' value='$dateadd(1:00:00)' />" +
+                                                "<LT name='AdvertisedTimeAtLocation' value='$dateadd(2:00:00)' />" +
                                           "</AND>" +
                                           "<AND>" +
                                                 "<LT name='AdvertisedTimeAtLocation' value='$dateadd(00:30:00)' />" +

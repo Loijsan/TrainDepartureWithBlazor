@@ -10,7 +10,7 @@ else
 {
                 
     var estimatedTime = Departure.Announcements.EstimatedTimeAtLocation.Value;
-    <th scope="row" style="background-color:cornflowerblue;">@estimatedTime.ToShortTimeString()</th>
+    <th scope="row" style="background-color:cornflowerblue;">@estimatedTime.ToString("HH:mm", culture)</th>
 }
 
 @if (Departure.LocationFullName != "")
