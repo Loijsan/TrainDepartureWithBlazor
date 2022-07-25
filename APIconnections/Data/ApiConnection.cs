@@ -171,11 +171,20 @@ namespace ApiConnections.Data
             {
                 var resultList = JsonTrainInfoExtractor(result);
 
-                // Här ligger felet, men det får jag kolla upp på min fritid!
+                // Why do APIs change? But this is how I learn stuff...
                 if (resultList is not null)
                 {
-                    var info = resultList.ProductInformation[0];
-                    return info;
+                    if (resultList.ProductInformation is not null)
+                    {
+                        var info = resultList.ProductInformation[0];
+                        return info;
+                    }
+                    if (resultList.InformationOwner is not null)
+                    {
+                        var info = resultList.InformationOwner;
+                        return info;
+                    }
+                    
                 }
             }
             return null;
