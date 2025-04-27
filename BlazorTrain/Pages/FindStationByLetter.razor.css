@@ -77,3 +77,13 @@
     text-decoration: none;
     z-index: 2;
 }
+
+@media (max-width: 767px) {
+
+    .behind {
+        background-color: lightskyblue;
+        color: green;
+    }
+
+    -Mobile
+}

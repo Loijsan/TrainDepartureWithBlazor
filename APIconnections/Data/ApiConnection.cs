@@ -276,6 +276,10 @@ namespace ApiConnections.Data
             var jsonName = JsonConvert.DeserializeObject<InfoRootobject>(result);
             var jsonResult = jsonName.RESPONSE.RESULT;
             var informationResult = jsonResult[0];
+            if (informationResult != null)
+            {
+                return null;
+            }
             var information = informationResult.TrainAnnouncement[0];
 
             return information;
